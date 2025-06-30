@@ -5,14 +5,17 @@ import CarList from './CarList'
 import EditModal from './EditModal'
 import { EditModalContext } from './editModal-context'
 import { useContext } from 'react'
+import { cars } from './cars'
+import { CarType } from './cars'
+import { useState } from 'react'
 
 export default function CartWrapper(){
     const {open, setOpen, car, setCar} = useContext(EditModalContext)
-
+    const [carArray, setCars] = useState<CarType[]>(cars)
     return(
         <CartContextProvider>
-            <CarList/>
-            <EditModal open={open} car={car} setOpen={setOpen}/>
+            <CarList cars={carArray}/>
+            <EditModal props={{open, setOpen, car}} setCars={setCars}/>
         </CartContextProvider>
     )
 

@@ -3,14 +3,12 @@ import { useState } from 'react'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Car from './Car'
-import { cars } from './cars'
+import { CarType } from './cars'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
-import { CartContextProvider } from './cart-context'
-import EditModal from './EditModal'
-import { CarType } from './cars'
 
-export default function CarList(){
+
+export default function CarList({cars}: {cars: CarType[]}){
     const [open, setOpen] = useState<boolean>(false)
     
     const theme = createTheme({
@@ -21,8 +19,6 @@ export default function CarList(){
             }
         }
     })
-
-
     return (
             <ThemeProvider theme={theme}>
                 <Box

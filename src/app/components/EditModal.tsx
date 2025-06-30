@@ -16,7 +16,7 @@ type EditModal ={
     car: CarType
 }
 
-export default function EditModal(props : EditModal){
+export default function EditModal({props, setCars} : {props:EditModal, setCars:React.Dispatch<React.SetStateAction<CarType[]>>}){
     const {open, setOpen, car} = props
     const {id, name, brand, quantity, price: carPrice} = {...car}
     const {register, handleSubmit, reset} = useForm<CarType>({
