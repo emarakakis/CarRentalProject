@@ -9,6 +9,7 @@ import { useContext } from 'react'
 import { CartContext } from './cart-context'
 import { carStyle } from './styles'
 import { CartType } from './cart-context'
+import { EditModalContext } from './editModal-context'
 
 export default function Car({props, index}: {props:CarType, index:number}){
 
@@ -16,11 +17,14 @@ export default function Car({props, index}: {props:CarType, index:number}){
     const color = (index % 2) === 0 ? "primary.main" : "primary.dark"
     const buttonColor = (index % 2) === 1 ? "primary.main" : "primary.dark"
     
-    const context = useContext(CartContext)
-    if (!context){
+    const cartContext = useContext(CartContext)
+    const editModalContext = useContext(EditModalContext)
+
+    if (!cartContext){
         throw new Error("Something went wrong!")
     }
-    const {cart, setCart} = context
+    const {cart, setCart} = cartContext
+    const {setOpen, setCar} = editModalContext
 
     function handleAddButton(){
         setCart((previousCart: CartType) => {
@@ -43,7 +47,9 @@ export default function Car({props, index}: {props:CarType, index:number}){
     }
 
     function handleEditButton(){
+        setCar(props)
         setOpen(true)
+
     }
 
     return <Box sx={carStyle(color)}>

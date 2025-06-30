@@ -13,7 +13,8 @@ type EditModal ={
 }
 
 export default function EditModal(props : EditModal){
-    const {open, setOpen} = props
+    const {open, setOpen, car} = props
+    const {id, name, brand, quantity, price: carPrice} = {...car}
 
     const handleClose = (reason:string) => {
         setOpen(false)
@@ -23,6 +24,7 @@ export default function EditModal(props : EditModal){
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>Edit Car</DialogTitle>
             <DialogActions>
+                {name} {brand}
                 <Button>Ok</Button>
                 <Button>Cancel</Button>
             </DialogActions>
