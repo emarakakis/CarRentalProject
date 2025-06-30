@@ -7,6 +7,7 @@ import CarRentalIcon from '@mui/icons-material/CarRental';
 import CartButton from "./CartButton";
 
 import AppButton from "../AppButton/AppButton";
+import AddCarButton from "./AddCarButton";
 
 export default function Header() {
   return (
@@ -30,6 +31,7 @@ export default function Header() {
               color: theme.palette.primary.dark
           })}>Eftychis Car Rentals</Typography>
         </Box>
+        <AddCarButton/>
         <CartButton />
       </Container>
     </ThemeProvider>
