@@ -3,7 +3,7 @@
 import { CarType } from "./Car/type"
 
 export const zero_car = {
-  id: "-1", name: '', brand: '', quantity: -1, price: -1
+  id: "", name: '', brand: '', quantity: 0, price: 0
 }
 
 export const cars: CarType[] = [
