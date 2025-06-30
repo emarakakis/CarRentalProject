@@ -28,7 +28,6 @@ export default function EditModal({props, setCars} : {props:EditModalType, setCa
       } else {
         reset(car)
       }
-      
     }, [car, reset, type])
 
     const handleClose = () => {
@@ -48,6 +47,7 @@ export default function EditModal({props, setCars} : {props:EditModalType, setCa
             
             //Apo Chat auto
             //newCars.map(c=>c.id === data.id : data ? c)
+            reset(zero_car)
             return newCars
         })
         setOpen(false)
@@ -66,7 +66,7 @@ export default function EditModal({props, setCars} : {props:EditModalType, setCa
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">Save</Button>
+                <Button type="submit">{type === "add" ? "Add Car" : "Save Changes"}</Button>
             </DialogActions>
         </form>
         </Dialog>
