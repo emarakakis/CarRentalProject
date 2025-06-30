@@ -1,13 +1,10 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import Header from "./components/Header";
-import CarList from "./components/CarList";
+import ModalWrapper from "./components/ModalWrapper"
 
 
 export default function Home() {
   return(
     <>
-      <CarList />
+      <ModalWrapper />
     </>
   )
 }

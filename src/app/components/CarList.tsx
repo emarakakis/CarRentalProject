@@ -1,5 +1,5 @@
 "use client"
-
+import { useState } from 'react'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Car from './Car'
@@ -7,8 +7,12 @@ import { cars } from './cars'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
 import { CartContextProvider } from './cart-context'
+import EditModal from './EditModal'
+import { CarType } from './cars'
 
 export default function CarList(){
+    const [open, setOpen] = useState<boolean>(false)
+    
     const theme = createTheme({
         palette:{
             primary: {
@@ -20,15 +24,14 @@ export default function CarList(){
 
 
     return (
-        <CartContextProvider>
             <ThemeProvider theme={theme}>
                 <Box
                     sx={{display: 'grid', gridTemplateRows: 'repeat(2,1fr)', width:1, height:1}}>
                     {cars.map((c,index) =>{
-                        return <Car key={c.id} props={c} index={index} />
+                        return <Car key={c.id} props={c} index={index}/>
                     })}
                 </Box>
+
             </ThemeProvider>
-        </CartContextProvider>
     )
 }

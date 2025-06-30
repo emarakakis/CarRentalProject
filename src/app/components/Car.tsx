@@ -15,11 +15,11 @@ export default function Car({props, index}: {props:CarType, index:number}){
     const {id, name, brand, quantity, price: carPrice} = {...props}
     const color = (index % 2) === 0 ? "primary.main" : "primary.dark"
     const buttonColor = (index % 2) === 1 ? "primary.main" : "primary.dark"
+    
     const context = useContext(CartContext)
     if (!context){
         throw new Error("Something went wrong!")
     }
-
     const {cart, setCart} = context
 
     function handleAddButton(){
@@ -43,7 +43,7 @@ export default function Car({props, index}: {props:CarType, index:number}){
     }
 
     function handleEditButton(){
-
+        setOpen(true)
     }
 
     return <Box sx={carStyle(color)}>
