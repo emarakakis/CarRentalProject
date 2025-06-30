@@ -5,11 +5,12 @@ import Box from '@mui/material/Box'
 import AppButton from './AppButton'
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { CartContext } from './cart-context'
 import { carStyle } from './styles'
 import { CartType } from './cart-context'
 import { EditModalContext } from './editModal-context'
+import { useEditModal } from './hooks/edit-modal-hook'
 
 export default function Car({props, index}: {props:CarType, index:number}){
 
@@ -19,12 +20,19 @@ export default function Car({props, index}: {props:CarType, index:number}){
     
     const cartContext = useContext(CartContext)
     const editModalContext = useContext(EditModalContext)
+    const [edit, setEdit] = useState<boolean>(false)
+
+    
+
 
     if (!cartContext){
         throw new Error("Something went wrong!")
     }
     const {cart, setCart} = cartContext
     const {setOpen, setCar} = editModalContext
+
+    useEditModal(setCar, setOpen, props, edit)
+    
 
     function handleAddButton(){
         setCart((previousCart: CartType) => {
@@ -47,8 +55,7 @@ export default function Car({props, index}: {props:CarType, index:number}){
     }
 
     function handleEditButton(){
-        setCar(props)
-        setOpen(true)
+        setEdit(val => !val)
     }
 
     return <Box sx={carStyle(color)}>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import { useEffect } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
@@ -22,6 +22,13 @@ export default function EditModal({props, setCars} : {props:EditModal, setCars:R
     const {register, handleSubmit, reset} = useForm<CarType>({
         defaultValues:car
     })
+
+    // Επειδή δεν έχουμε κάποιο state, τα defaultValues από τα TextField
+    // υπολογίζεται μόνο μια φορά. Για αυτό χρειαζόμαστε με κάποιον τρόπο
+    // ανανεώσεις. Αυτό επειδή κάναμε το useContext στο από πάνω level.
+    useEffect(() => {
+      reset(car)
+    }, [car, reset])
 
     const handleClose = () => {
         setOpen(false)
