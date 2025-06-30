@@ -46,7 +46,6 @@ export default function Car({props, index}: {props:CarType, index:number}){
             console.log(cart)
             return {price: newPrice, items:newItems}
         })
-
     }
 
     function handleEditButton(){

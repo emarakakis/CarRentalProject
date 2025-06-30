@@ -1,3 +1,4 @@
+import { red } from "@mui/material/colors"
 import { createTheme } from "@mui/material/styles"
 
 export const theme = createTheme({
@@ -12,6 +13,11 @@ export const theme = createTheme({
         h1:{
             fontSize: '2.5rem',
             fontWeight: 600,
+        },
+        h2:{
+            fontSize: '2rem',
+            color: 'red',
+            fontWeight: 600
         }
     }
   })
@@ -22,5 +28,15 @@ export const containerSX = {
     height: "100px",
     width:"100%",
     display: "flex",
+    justifyContent: "space-between",
     gap: 2
+}
+
+export const cartButton = {
+    color:'black', 
+    width:"5px",
+    '&:hover':{
+        color:'white',
+        backgroundColor: 'black'
+    }
 }
