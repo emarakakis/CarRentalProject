@@ -49,7 +49,6 @@ export default function Car({props, index}: {props:CarType, index:number}){
     function handleEditButton(){
         setCar(props)
         setOpen(true)
-
     }
 
     return <Box sx={carStyle(color)}>

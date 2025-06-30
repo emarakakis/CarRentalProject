@@ -28,7 +28,17 @@ export default function EditModal({props, setCars} : {props:EditModal, setCars:R
     }
 
     const onSubmit = (data: CarType) => {
-        console.log(data)
+        setCars((prevCars:CarType[]) => {
+            const newCars = [...prevCars]
+            let carIndex = newCars.findIndex(c => c.id === data.id)
+            if (carIndex === -1){
+                throw new Error("Cannot Edit a Car that doesn't exist")
+            }
+            newCars[carIndex] = data
+            //Apo Chat auto
+            //newCars.map(c=>c.id === data.id : data ? c)
+            return newCars
+        })
         setOpen(false)
     }
 
