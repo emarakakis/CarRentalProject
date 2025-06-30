@@ -26,9 +26,9 @@ export default function Car({props, index}: {props:CarType, index:number}){
         throw new Error("Something went wrong!")
     }
     const {cart, setCart} = cartContext
-    const {setOpen, setCar} = editModalContext
+    const {setOpen, setCar, setType} = editModalContext
 
-    useEditModal(setCar, setOpen, props, edit)
+    useEditModal(setCar, setOpen, setType, props, edit)
     
     function handleAddButton(){
         setCart((previousCart: CartType) => {

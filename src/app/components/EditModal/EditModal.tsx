@@ -10,9 +10,10 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import TextField from '@mui/material/TextField'
 import { useForm } from 'react-hook-form'
+import { zero_car } from '../cars'
 
 export default function EditModal({props, setCars} : {props:EditModalType, setCars:React.Dispatch<React.SetStateAction<CarType[]>>}){
-    const {open, setOpen, car} = props
+    const {open, setOpen, car, type} = props
     const {id, name, brand, quantity, price: carPrice} = {...car}
     const {register, handleSubmit, reset} = useForm<CarType>({
         defaultValues:car
@@ -22,8 +23,13 @@ export default function EditModal({props, setCars} : {props:EditModalType, setCa
     // υπολογίζεται μόνο μια φορά. Για αυτό χρειαζόμαστε με κάποιον τρόπο
     // ανανεώσεις. Αυτό επειδή κάναμε το useContext στο από πάνω level.
     useEffect(() => {
-      reset(car)
-    }, [car, reset])
+      if (type === "add"){
+        reset(zero_car)
+      } else {
+        reset(car)
+      }
+      
+    }, [car, reset, type])
 
     const handleClose = () => {
         setOpen(false)
@@ -34,9 +40,12 @@ export default function EditModal({props, setCars} : {props:EditModalType, setCa
             const newCars = [...prevCars]
             let carIndex = newCars.findIndex(c => c.id === data.id)
             if (carIndex === -1){
-                throw new Error("Cannot Edit a Car that doesn't exist")
+                newCars.push(data)
             }
-            newCars[carIndex] = data
+            else{
+                newCars[carIndex] = data
+            }
+            
             //Apo Chat auto
             //newCars.map(c=>c.id === data.id : data ? c)
             return newCars

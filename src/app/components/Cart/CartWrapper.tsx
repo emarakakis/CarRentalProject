@@ -11,13 +11,13 @@ import { useState } from 'react'
 import Header from '../Header/Header'
 
 export default function CartWrapper(){
-    const {open, setOpen, car, setCar} = useContext(EditModalContext)
+    const {open, setOpen, car, type} = useContext(EditModalContext)
     const [carArray, setCars] = useState<CarType[]>(cars)
     return(
         <CartContextProvider>
             <Header/>
             <CarList cars={carArray}/>
-            <EditModal props={{open, setOpen, car}} setCars={setCars}/>
+            <EditModal props={{open, setOpen, car, type}} setCars={setCars}/>
         </CartContextProvider>
     )
 

@@ -10,8 +10,8 @@ export type EditModalContextType = {
 }
 
 export type EditModalType ={
-    
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    car: CarType
+    car: CarType,
+    type: "add" | "edit"
 }
