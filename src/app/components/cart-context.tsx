@@ -1,14 +1,17 @@
 import { createContext, useState, ReactNode } from "react";
 import { CarType } from "./cars";
 
-type Cart = {
+export type CartType = {
   price: number;
-  items: CarType[];
+  items: {
+    id: string,
+    quantity: number
+  }[];
 };
 
 type CartContextType = {
-  cart: Cart;
-  setCart: React.Dispatch<React.SetStateAction<Cart>>;
+  cart: CartType;
+  setCart: React.Dispatch<React.SetStateAction<CartType>>;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -18,7 +21,7 @@ type CartContextProviderProps = {
 };
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cart, setCart] = useState<Cart>({
+  const [cart, setCart] = useState<CartType>({
     price: 0,
     items: [],
   });

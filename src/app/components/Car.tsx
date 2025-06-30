@@ -8,15 +8,37 @@ import AddIcon from '@mui/icons-material/Add';
 import { useContext } from 'react'
 import { CartContext } from './cart-context'
 import { carStyle } from './styles'
+import { CartType } from './cart-context'
 
 export default function Car({props, index}: {props:CarType, index:number}){
 
-    const {id, name, brand, quantity, price} = {...props}
+    const {id, name, brand, quantity, price: carPrice} = {...props}
     const color = (index % 2) === 0 ? "primary.main" : "primary.dark"
     const buttonColor = (index % 2) === 1 ? "primary.main" : "primary.dark"
-    const {cart, setCart} = useContext(CartContext)
+    const context = useContext(CartContext)
+    if (!context){
+        throw new Error("Something went wrong!")
+    }
+
+    const {cart, setCart} = context
 
     function handleAddButton(){
+        setCart((previousCart: CartType) => {
+            const {items, price} = {...previousCart}
+            
+            const newItems = [...items]
+            let newPrice = price
+
+            let itemExistsIndex = newItems.findIndex((car:{id:string, quantity:number}) => car.id === id)
+            if(itemExistsIndex === -1){
+                newItems.push({id:id, quantity: 1})
+            } else {
+                newItems[itemExistsIndex] = {...newItems[itemExistsIndex], quantity: newItems[itemExistsIndex].quantity + 1}
+            }
+            newPrice += carPrice
+            console.log(cart)
+            return {price: newPrice, items:newItems}
+        })
 
     }
 
@@ -27,8 +49,8 @@ export default function Car({props, index}: {props:CarType, index:number}){
     return <Box sx={carStyle(color)}>
         <span>{brand}</span>
         <span>{name}</span>
-        <span>{price}</span>
-        <AppButton props = {{icon:EditIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleAddButton}}/>
-        <AppButton props = {{icon:AddIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleEditButton}}/>
+        <span>{carPrice}</span>
+        <AppButton props = {{icon:EditIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleEditButton}}/>
+        <AppButton props = {{icon:AddIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleAddButton}}/>
     </Box>
 }
