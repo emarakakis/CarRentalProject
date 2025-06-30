@@ -12,7 +12,10 @@ import TextField from '@mui/material/TextField'
 import { useForm } from 'react-hook-form'
 import { zero_car } from '../cars'
 
-export default function EditModal({props, setCars} : {props:EditModalType, setCars:React.Dispatch<React.SetStateAction<CarType[]>>}){
+export default function EditModal({props, setCars} : {
+    props:EditModalType,
+    setCars:React.Dispatch<React.SetStateAction<CarType[]>>
+}){
     const {open, setOpen, car, type} = props
     const {id, name, brand, quantity, price: carPrice} = {...car}
     const {register, handleSubmit, reset} = useForm<CarType>({

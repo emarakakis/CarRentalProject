@@ -7,11 +7,13 @@ import { cartButton } from './theme'
 import { CartContext } from '../Cart/cart-context';
 import { useContext } from 'react';
 import { CartType } from '../Cart/types';
+import CartDisplay from './CartDisplay';
 
 
 
 export default function CartButton(){
     const context = useContext(CartContext)
+    const [showCart, setShowCart] = React.useState<boolean>(false)
     console.log("Re-Render!")
     let cartNum = 0
     if (context){
@@ -21,9 +23,14 @@ export default function CartButton(){
 
     return (
         <Button
-            sx={cartButton}>
+            sx={cartButton}
+            onClick={()=>{setShowCart(true)}}>
             <ShoppingCartIcon />
             <Typography variant='h2'>{cartNum}</Typography>
+            {showCart &&
+                <CartDisplay show={showCart} setShow={setShowCart}/>
+            
+            }
         </Button>
     )
 }
