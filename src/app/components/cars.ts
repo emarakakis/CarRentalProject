@@ -1,14 +1,6 @@
 // cars.ts
 
-import { CartType } from "./cart-context"
-
-export type CarType = {
-  id: string
-  name: string
-  brand: string
-  quantity: number
-  price: number // τιμή ανά ενοικίαση ή μονάδα, σε €
-}
+import { CarType } from "./Car/type"
 
 export const zero_car = {
   id: "-1", name: '', brand: '', quantity: -1, price: -1

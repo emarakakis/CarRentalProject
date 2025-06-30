@@ -4,19 +4,14 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
-import { CarType } from './cars'
+import { CarType } from '../Car/type'
+import { EditModalType } from './types'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import TextField from '@mui/material/TextField'
 import { useForm } from 'react-hook-form'
 
-type EditModal ={
-    open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    car: CarType
-}
-
-export default function EditModal({props, setCars} : {props:EditModal, setCars:React.Dispatch<React.SetStateAction<CarType[]>>}){
+export default function EditModal({props, setCars} : {props:EditModalType, setCars:React.Dispatch<React.SetStateAction<CarType[]>>}){
     const {open, setOpen, car} = props
     const {id, name, brand, quantity, price: carPrice} = {...car}
     const {register, handleSubmit, reset} = useForm<CarType>({

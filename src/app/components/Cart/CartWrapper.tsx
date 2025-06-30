@@ -1,12 +1,12 @@
 "use client"
 import * as React from 'react'
 import { CartContextProvider } from './cart-context'
-import CarList from './CarList'
-import EditModal from './EditModal'
-import { EditModalContext } from './editModal-context'
+import CarList from '../Car/CarList'
+import EditModal from '../EditModal/EditModal'
+import { EditModalContext } from '../EditModal/editModal-context'
 import { useContext } from 'react'
-import { cars } from './cars'
-import { CarType } from './cars'
+import { cars } from '../cars'
+import { CarType } from '../Car/type'
 import { useState } from 'react'
 
 export default function CartWrapper(){

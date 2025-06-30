@@ -1,16 +1,11 @@
 import * as React from 'react'
 
 import { createContext, useState } from 'react'
-import { CarType, zero_car } from './cars'
+import { zero_car } from '../cars'
+import { CarType } from '../Car/type'
+import { EditModalContextType } from './types'
 
-type EditModalType = {
-    open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
-    car: CarType
-    setCar: React.Dispatch<React.SetStateAction<CarType>>
-}
-
-export const EditModalContext = createContext<EditModalType>({
+export const EditModalContext = createContext<EditModalContextType>({
     open:false,
     setOpen:() => {},
     car: zero_car,

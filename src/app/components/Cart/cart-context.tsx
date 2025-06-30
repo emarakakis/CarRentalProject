@@ -1,19 +1,5 @@
 import { createContext, useState, ReactNode } from "react";
-import { CarType } from "./cars";
-
-export type CartType = {
-  price: number;
-  items: {
-    id: string,
-    quantity: number
-  }[];
-};
-
-type CartContextType = {
-  cart: CartType;
-  setCart: React.Dispatch<React.SetStateAction<CartType>>;
-};
-
+import { CartContextType, CartType } from "./types";
 export const CartContext = createContext<CartContextType | null>(null);
 
 type CartContextProviderProps = {
