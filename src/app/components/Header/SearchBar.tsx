@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
+
 export type SearchParamType = {
   query: string;
 };

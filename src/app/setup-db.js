@@ -60,7 +60,7 @@ function seedCars() {
                     _a.label = 1;
                 case 1:
                     if (!(i < cars_1.cars.length)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, db_1.db.insert(db_1.carTable).values(__assign(__assign({}, cars_1.cars[i]), { id: i + 1 }))];
+                    return [4 /*yield*/, db_1.db.insert(db_1.carTable).values(__assign(__assign({}, cars_1.cars[i]), { id: "".concat(i + 1) }))];
                 case 2:
                     _a.sent();
                     _a.label = 3;

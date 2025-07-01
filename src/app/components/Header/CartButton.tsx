@@ -14,7 +14,6 @@ import CartDisplay from './CartDisplay';
 export default function CartButton(){
     const context = useContext(CartContext)
     const [showCart, setShowCart] = React.useState<boolean>(false)
-    console.log("Re-Render!")
     let cartNum = 0
     if (context){
         const {cart, setCart} = context

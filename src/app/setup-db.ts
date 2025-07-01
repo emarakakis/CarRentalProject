@@ -5,7 +5,7 @@ initializeDB()
 
 async function seedCars(){
   for (let i = 0; i < cars.length; i++){
-    await db.insert(carTable).values({ ...cars[i], id: i + 1,  })
+    await db.insert(carTable).values({ ...cars[i], id: `${i + 1}` })
   }
 }
 

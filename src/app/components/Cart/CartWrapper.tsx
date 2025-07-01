@@ -2,46 +2,50 @@
 import * as React from 'react'
 import { CartContextProvider } from './cart-context'
 import CarList from '../CarItem/CarList'
-import EditModal from '../EditModal/EditModal'
-import { EditModalContext } from '../EditModal/editModal-context'
-import { useContext, useEffect } from 'react'
-import { cars } from '../Cars/cars'
 import { CarType } from '../CarItem/type'
-import { CarContext } from '../Cars/car-context'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '../Header/Header'
 import { SearchParamType } from '../Header/SearchBar'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { fetchCarList, fetchCars } from '../scripts/serverFunctions'
+import { Box } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
+
 export default function CartWrapper(){
-    const {open, setOpen, car, type} = useContext(EditModalContext)
-    const {cars, setCars} = useContext(CarContext)
     const [searchParams, setSearchParams] = useState<SearchParamType>({query:""})
-    const {isLoading, error, data} = useQuery({
-        queryKey:['cars'],
-        queryFn: async () => {
-            const response = await axios.get('/api/cars')
-            console.log("Mple")
-            return response.data
-        }
+    const {isLoading, error, data:cars} = useQuery({
+        queryKey:['cars', 'query'],
+        queryFn: () => fetchCarList(searchParams.query),
     })
 
-    console.log(data)
+    const queryClient = useQueryClient()
+    useEffect(()=>{
+        queryClient.invalidateQueries({queryKey:['cars']})
+    },[searchParams.query])
+
+    console.log(searchParams.query)
 
     const query  = searchParams.query
     let carList: CarType[] = []
 
-    if (query === ""){
-            carList = cars
-        } else {
-            carList = cars.filter(car => car.brand.startsWith(query) || car.name.startsWith(query))
+    if (isLoading){
+        return <Box>Loading...</Box>
+    }
+
+    if (error) {
+        console.error(error);
+    return <Box>Error loading cars</Box>;
+    }
+
+    if (!cars){
+        throw new Error("Something went wrong with the cars")
     }
 
     return(
         <CartContextProvider>
             <Header setSearchParams={setSearchParams}/>
-            <CarList cars={carList}/>
-            <EditModal props={{open, setOpen, car, type}} setCars={setCars}/>
+            <CarList cars={cars}/>
+            {/* {<EditModal props={{open, setOpen, car, type}} setCars={setCars}/>} */}
         </CartContextProvider>
     )
 

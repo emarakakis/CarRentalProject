@@ -5,7 +5,6 @@ import {theme, containerSX} from './theme'
 import { Container, Button, Typography, Box} from '@mui/material';
 import CarRentalIcon from '@mui/icons-material/CarRental';
 import CartButton from "./CartButton";
-import { useRef } from "react";
 import SearchBar from "./SearchBar";
 import { SearchParamType } from "./SearchBar";
 
