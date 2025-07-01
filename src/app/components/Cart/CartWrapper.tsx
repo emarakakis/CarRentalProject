@@ -20,7 +20,7 @@ export default function CartWrapper(){
 
     const queryClient = useQueryClient()
     useEffect(()=>{
-        queryClient.invalidateQueries({queryKey:['cars']})
+        queryClient.invalidateQueries({queryKey:['cars', 'query']})
     },[searchParams.query])
 
     console.log(searchParams.query)

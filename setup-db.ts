@@ -1,5 +1,5 @@
-import { db, carTable, cartTable, initializeDB } from '../../db'
-import { cars } from './components/Cars/cars'
+import { db, carTable, cartTable, initializeDB } from './db'
+import { cars } from './src/app/components/Cars/cars'
 
 initializeDB()
 

@@ -1,10 +1,7 @@
 export type CartType = {
-  price: number;
-  items: {
-    id: string,
-    quantity: number
-  }[];
-};
+  id: string,
+  quantity: number
+}[];
 
 export type CartContextType = {
   cart: CartType;

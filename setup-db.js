@@ -47,8 +47,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var db_1 = require("../../db");
-var cars_1 = require("./components/Cars/cars");
+var db_1 = require("./db");
+var cars_1 = require("./src/app/components/Cars/cars");
 (0, db_1.initializeDB)();
 function seedCars() {
     return __awaiter(this, void 0, void 0, function () {

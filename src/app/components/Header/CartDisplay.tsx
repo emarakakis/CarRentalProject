@@ -1,12 +1,10 @@
 import * as React from 'react'
 
 import {Box, Drawer, Typography, Button, ListItem, ListItemText} from '@mui/material'
-import { CartContext } from '../Cart/cart-context'
-import { useContext } from 'react'
-import { CartType } from '../Cart/types'
-import { CarContext } from '../Cars/car-context'
 import { CarType } from '../CarItem/type'
-import { error } from 'console'
+import { useQuery } from '@tanstack/react-query'
+import { CartType } from '../Cart/types'
+import { fetchCars, fetchCart } from '../scripts/serverFunctions'
 
 type CartDisplayProps = {
   show: boolean
@@ -14,20 +12,34 @@ type CartDisplayProps = {
 }
 
 export default function CartDisplay({ show, setShow }: CartDisplayProps) {
-    const context = useContext(CartContext)
-    const {cars} = useContext(CarContext)
+    const {data:cart, isLoading: isLoadingCart, error: errorCart} = useQuery<CartType>({
+        queryKey: ['cart'],
+        queryFn: fetchCart
+    })
 
-    if (!context){
-        throw new Error("How")
-    }
-
-    const {cart} = context
+    const {data:cars, isLoading:isLoadingCars, error: errorCars} = useQuery<CarType[]>({
+        queryKey: ['cars'],
+        queryFn: fetchCars
+    })
 
     const handleClose = () => {
         setShow(false)
     }
 
-    const carInformation = findCarInformation(cars, cart.items)
+    if (isLoadingCars || isLoadingCart){
+        return <Box>Loading...</Box>
+    }
+
+    if (!cars || errorCars){
+        throw new Error("Error when returning cars")
+    }
+
+    if (!cart || errorCart){
+        throw new Error("Error when returning cart")
+    }
+
+
+    const carInformation = findCarInformation(cars, cart)
 
     return (
         <Drawer anchor="right" open={show} onClose={handleClose}>
@@ -41,20 +53,22 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
                 })}
                 <Button sx={{color:"black"}}>Buy</Button>
                 <Button sx={{color:"black"}}onClick={handleClose}>Exit</Button>
-                Price: {cart.price}
+                {/* Price: {cart.price} */}
             </Box>
         </Drawer>
     )
 }
 
-function findCarInformation(cars:CarType[], cartItems:{id: string, quantity: number}[]): CarType[]{
-    return cartItems.map(item => {
-        const car = cars.find(car => car.id === item.id)
-        if (!car){
-            throw new Error("Wtf")
-        } else {
-            return {...car, quantity: item.quantity}
-        }
-        
+function findCarInformation(cars:CarType[], cartItems:{id: string, quantity: number}[]): (CarType & {quantity:number})[] {
+  return cartItems
+    .map(item => {
+      const car = cars.find(car => car.id === item.id)
+      if (!car) {
+        console.warn('Skipping missing car with id:', item.id)
+        return null
+      }
+      return {...car, quantity: item.quantity}
     })
+    .filter(Boolean) as (CarType & {quantity:number})[]
 }
+
