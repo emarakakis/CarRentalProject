@@ -12,9 +12,9 @@ import { carStyle } from '../styles'
 import { EditModalContext } from '../EditModal/editModal-context'
 import { useEditModal } from '../hooks/edit-modal-hook'
 
-export default function Car({props, index}: {props:CarType, index:number}){
+export default function CarItem({props: car, index}: {props:CarType, index:number}){
 
-    const {id, name, brand, quantity, price: carPrice} = {...props}
+    const {id, name, brand, quantity, price: carPrice} = {...car}
     const color = (index % 2) === 0 ? "primary.main" : "primary.dark"
     const buttonColor = (index % 2) === 1 ? "primary.main" : "primary.dark"
     
@@ -28,7 +28,7 @@ export default function Car({props, index}: {props:CarType, index:number}){
     const {cart, setCart} = cartContext
     const {setOpen, setCar, setType} = editModalContext
 
-    useEditModal(setCar, setOpen, setType, props, edit)
+    useEditModal(setCar, setOpen, setType, car, edit)
     
     function handleAddButton(){
         setCart((previousCart: CartType) => {

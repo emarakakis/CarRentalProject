@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Car from './Car'
+import CarItem from './Car'
 import { CarType } from '../Car/type'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
@@ -24,7 +24,7 @@ export default function CarList({cars}: {cars: CarType[]}){
                 <Box
                     sx={{display: 'grid', gridTemplateRows: 'repeat(2,1fr)', width:1, height:1}}>
                     {cars.map((c,index) =>{
-                        return <Car key={c.id} props={c} index={index}/>
+                        return <CarItem key={c.id} props={c} index={index}/>
                     })}
                 </Box>
 

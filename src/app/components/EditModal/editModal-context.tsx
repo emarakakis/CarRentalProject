@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { createContext, useState } from 'react'
-import { zero_car } from '../cars'
-import { CarType } from '../Car/type'
+import { zero_car } from '../Cars/cars'
+import { CarType } from '../CarItem/type'
 import { EditModalContextType } from './types'
 
 export const EditModalContext = createContext<EditModalContextType>({

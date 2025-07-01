@@ -1,4 +1,4 @@
-import { CarType } from "../Car/type"
+import { CarType } from "../CarItem/type"
 
 export type EditModalContextType = {
     open: boolean

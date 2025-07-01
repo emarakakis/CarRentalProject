@@ -1,6 +1,6 @@
 // cars.ts
 
-import { CarType } from "./Car/type"
+import { CarType } from "../CarItem/type"
 
 export const zero_car = {
   id: "", name: '', brand: '', quantity: 0, price: 0

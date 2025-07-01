@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CarType } from "../Car/type";
+import { CarType } from "../CarItem/type";
 
 export function useEditModal(
     setCar:React.Dispatch<React.SetStateAction<CarType>>,

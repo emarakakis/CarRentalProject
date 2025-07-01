@@ -4,13 +4,13 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
-import { CarType } from '../Car/type'
+import { CarType } from '../CarItem/type'
 import { EditModalType } from './types'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import TextField from '@mui/material/TextField'
 import { useForm } from 'react-hook-form'
-import { zero_car } from '../cars'
+import { zero_car } from '../Cars/cars'
 
 export default function EditModal({props, setCars} : {
     props:EditModalType,
@@ -50,9 +50,10 @@ export default function EditModal({props, setCars} : {
             
             //Apo Chat auto
             //newCars.map(c=>c.id === data.id : data ? c)
-            reset(zero_car)
+            
             return newCars
         })
+        reset(zero_car)
         setOpen(false)
     }
 
