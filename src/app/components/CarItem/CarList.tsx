@@ -3,7 +3,7 @@ import { useState } from 'react'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import CarItem from './Car'
-import { CarType } from '../Car/type'
+import { CarType } from './type'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
 
