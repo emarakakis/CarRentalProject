@@ -17,7 +17,6 @@ export default function SearchBar({
 
   const onSubmit = (data: SearchParamType) => {
     setSearchParams(data)
-    console.log(data)
   }
 
 

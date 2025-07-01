@@ -43,7 +43,6 @@ export default function CarItem({props: car, index}: {props:CarType, index:numbe
                 newItems[itemExistsIndex] = {...newItems[itemExistsIndex], quantity: newItems[itemExistsIndex].quantity + 1}
             }
             newPrice += carPrice
-            console.log(cart)
             return {price: newPrice, items:newItems}
         })
     }
