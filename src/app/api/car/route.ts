@@ -1,5 +1,5 @@
 import { cartTable, db } from "../../../../db"
-import { eq } from "drizzle-orm"
+import { sql, eq } from "drizzle-orm"
 
 export async function PUT(request: Request) {
   try {
@@ -21,9 +21,9 @@ export async function PUT(request: Request) {
     }
 
     const alreadyIn = await db.select().from(cartTable).where(eq(cartTable.id, id)).all()
-
+    console.log(JSON.stringify(alreadyIn))
     if (alreadyIn.length > 0) {
-      await db.update(cartTable).set({ quantity }).where(eq(cartTable.id, id)).run()
+      const what = await db.update(cartTable).set({ quantity : sql`${cartTable.quantity} + 1 `}).where(eq(cartTable.id, id)).run()
     } else {
       await db.insert(cartTable).values({ id, quantity }).run()
     }

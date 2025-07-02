@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.1.2",
@@ -20,16 +17,22 @@
     "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
     "dayjs": "^1.11.13",
+    "drizzle-orm": "^0.30.6",
+    "gel": "^2.1.1",
+    "mysql2": "^3.14.1",
+    "next": "15.3.4",
     "qs": "^6.14.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hook-form": "^7.59.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }

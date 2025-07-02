@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,30 +37,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("./db");
-var cars_1 = require("./src/app/components/Cars/cars");
-(0, db_1.initializeDB)();
-function seedCars() {
+var drizzle_orm_1 = require("drizzle-orm");
+function fetchCart() {
     return __awaiter(this, void 0, void 0, function () {
-        var i;
+        var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    i = 0;
-                    _a.label = 1;
+                case 0: return [4 /*yield*/, db_1.db
+                        .update(db_1.cartTable)
+                        .set({ quantity: 50 })
+                        .where((0, drizzle_orm_1.eq)(db_1.cartTable.id, "5"))
+                        .run()];
                 case 1:
-                    if (!(i < cars_1.cars.length)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, db_1.db.insert(db_1.carTable).values(__assign(__assign({}, cars_1.cars[i]), { id: "".concat(i + 1) }))];
-                case 2:
-                    _a.sent();
-                    _a.label = 3;
-                case 3:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
+                    result = _a.sent();
+                    return [2 /*return*/, result];
             }
         });
     });
 }
-seedCars().then(function () {
-    console.log('DB seeded');
+// 👇 Βάλε await γιατί είναι async
+fetchCart().then(function (response) {
+    if (!response) {
+        throw new Error("Mple");
+    }
+}).catch(function (err) {
+    console.error("Σφάλμα:", err);
 });

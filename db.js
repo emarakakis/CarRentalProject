@@ -2,11 +2,7 @@ import Database from 'better-sqlite3'
 import { drizzle } from 'drizzle-orm/better-sqlite3'
 import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core'
 
-import path from 'path'
-
 const sqliteDB = new Database('./mydb.sqlite')
-
-
 
 export const carTable = sqliteTable('cars', {
     id: text('id').primaryKey(),
