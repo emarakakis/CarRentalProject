@@ -6,4 +6,7 @@ export type ButtonType = {
     handleClick: () => void
     buttonColor: string
     iconColor: string
+    moreSx?: {
+        [key: string] : string | number
+    }
 } & ButtonProps

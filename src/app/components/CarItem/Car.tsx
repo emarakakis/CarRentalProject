@@ -1,13 +1,14 @@
 "use client"
 import * as React from 'react'
 import { CarType } from './type'
-import Box from '@mui/material/Box'
+import {ListItem} from '@mui/material'
 import AppButton from '../AppButton/AppButton'
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { carStyle } from '../styles'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { addToCart, getCarById } from '../scripts/serverFunctions'
+import { addToCart, getCarById, deleteCar } from '../scripts/serverFunctions'
 import { useContext, useState } from 'react'
 import { EditModalContext } from '../EditModal/editModal-context'
 import { useQueryClient } from '@tanstack/react-query'
@@ -37,6 +38,15 @@ export default function CarItem({props: car, index}: {props:CarType, index:numbe
         }
     })
 
+    const {mutate: mutateDeleteCartItem} = useMutation({
+            mutationFn: deleteCar,
+            onSuccess: () => {
+                console.log("Deleted Cart Item Successfully.")
+                client.invalidateQueries({queryKey: ['cars']})
+                client.invalidateQueries({queryKey: ['cars']})
+            }
+        })
+
     useEditModal(setOpen, setType, "edit", edit, refetchCar, client)
     
     async function handleAddButton(){
@@ -47,11 +57,20 @@ export default function CarItem({props: car, index}: {props:CarType, index:numbe
         setEdit(val => !val)
     }
 
-    return <Box sx={carStyle(color)}>
+    function handleDeleteCar(){
+        mutateDeleteCartItem(id)
+    }
+
+    const moreSx = {
+        
+    }
+
+    return <ListItem sx={carStyle(color)}>
         <span>{brand}</span>
         <span>{name}</span>
         <span>{carPrice}</span>
-        <AppButton props = {{icon:EditIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleEditButton}}/>
-        <AppButton props = {{icon:AddIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleAddButton}}/>
-    </Box>
+        <span><AppButton props = {{icon:EditIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleEditButton, moreSx:moreSx}}/></span>
+        <span><AppButton props = {{icon:AddIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleAddButton, moreSx}}/></span>
+        <span><AppButton props = {{icon:DeleteIcon, buttonColor:color, iconColor:buttonColor, handleClick: handleDeleteCar, moreSx}}/></span>
+    </ListItem>
 }

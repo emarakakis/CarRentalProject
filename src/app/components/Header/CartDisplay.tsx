@@ -48,16 +48,17 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
     return (
         <Drawer anchor="right" open={show} onClose={handleClose}>
             <Box sx={{display: 'flex', flexDirection:"column", alignItems:"center", width: 300, padding: 2}}>
-                <Typography variant='h1'>Your Cart!</Typography>
+                <Typography variant='h1'>Your Cart</Typography>
                 {carInformation.map((car: CarType & {quantity: number} , i:number) => {
                     return (
                         <CartItem key={i} name={car.name} brand={car.brand} quantity={car.quantity} id={car.id}/>
                         )
                 })}
-                <Typography variant='h1'>Cart Price: {cartPrice}</Typography>
-                <Button sx={{color:"black"}}>Buy</Button>
-                <Button sx={{color:"black"}}onClick={handleClose}>Exit</Button>
-                {/* Price: {cart.price} */}
+                {cartPrice !== 0 && <Typography variant='h1'>Cart Price: {cartPrice}</Typography>}
+                <Box sx={{display: "flex", gap:1, mt: 5}}>
+                    {cartPrice > 0 && <Button variant="outlined" sx={{color:"green", bgcolor:"white", border:1}}>Buy</Button>}
+                    <Button variant="outlined" sx={{color:"red", bgcolor:"white", border:1}} onClick={handleClose}>Exit</Button>
+                </Box>
             </Box>
         </Drawer>
     )

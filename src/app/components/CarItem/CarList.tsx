@@ -1,11 +1,14 @@
 "use client"
-import { useState } from 'react'
 import * as React from 'react'
-import Box from '@mui/material/Box'
+import { useState } from 'react'
+
+
 import CarItem from './Car'
 import { CarType } from './type'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
+import { List, ListItem } from '@mui/material'
+import { carStyle } from '../styles'
 
 
 export default function CarList({cars}: {cars: CarType[]}){
@@ -21,12 +24,21 @@ export default function CarList({cars}: {cars: CarType[]}){
     })
     return (
             <ThemeProvider theme={theme}>
-                <Box
-                    sx={{display: 'grid', gridTemplateRows: 'repeat(2,1fr)', width:1, height:1}}>
+                <List
+                    
+                    sx={{width:1, height:1}}>
+                    <ListItem sx={carStyle('yellow')}>
+                        <span>Brand</span>
+                        <span>Name</span>
+                        <span>Price</span>
+                        <span>Edit</span>
+                        <span>Add to Cart</span>
+                        <span>Delete</span>
+                    </ListItem>
                     {cars.map((c,index) =>{
                         return <CarItem key={c.id} props={c} index={index}/>
                     })}
-                </Box>
+                </List>
 
             </ThemeProvider>
     )

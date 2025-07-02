@@ -20,13 +20,24 @@ export default function CartItem({name, brand, quantity, id} :
         }
     })
 
-    return (
-        <ListItem>
-            <ListItemText>
-                {brand} {name} of Quantity: {quantity}
-                <Button sx={{color:'red'}} onClick={() => mutateDeleteCartItem(id)}>Delete</Button>
-            </ListItemText>
-        </ListItem>
-        )
-
+return (
+    <ListItem
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)', // Χωρίζεται σε 5 ίσα μέρη
+        width: '100%',
+        alignItems: 'center',
+      }}
+    >
+      <ListItemText sx={{fontSize:2}} primary={`${brand} ${name}`}/>
+      <ListItemText sx={{fontSize:2}} primary="Quantity" />
+      <ListItemText sx={{fontSize:2}} primary={quantity.toString()} />
+      <Button
+        sx={{ color: 'red' }}
+        onClick={() => mutateDeleteCartItem(id)}
+      >
+        Delete
+      </Button>
+    </ListItem>
+  )
 }

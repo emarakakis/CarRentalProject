@@ -7,12 +7,13 @@ import CarRentalIcon from '@mui/icons-material/CarRental';
 import CartButton from "./CartButton";
 import SearchBar from "./SearchBar";
 import { SearchParamType } from "./SearchBar";
-
+import CartDisplay from './CartDisplay';
 import AppButton from "../AppButton/AppButton";
 import AddCarButton from "./AddCarButton";
+import { useState } from "react";
 
 export default function Header({setSearchParams} :{setSearchParams: React.Dispatch<React.SetStateAction<SearchParamType>>}) {
-
+  const [open, setOpen] = useState<boolean>(false)
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -34,7 +35,11 @@ export default function Header({setSearchParams} :{setSearchParams: React.Dispat
         </Box>
         <SearchBar setSearchParams={setSearchParams}/>
         <AddCarButton/>
-        <CartButton />
+        <CartButton setShow={setOpen}/>
+        {open &&
+          <CartDisplay show={open} setShow={setOpen}/>
+        }
+
       </Container>
     </ThemeProvider>
   );

@@ -61,16 +61,18 @@ export async function addCar(car: CarType){
 }
 
 export async function deleteCar(id: number){
-    const response = await axios.delete(`/api/car?id=${id}`)
-    const data = response.data
+    let response = await axios.delete(`/api/car?id=${id}`)
+    let data = response.data
 
     if (!data || !data.success){
         throw new Error("Something went wrong on Cart Car Delete!")
     }
+
+    await deleteCartCar(id)
 }
 
 export async function deleteCartCar(id: number){
-    const response = await axios.delete(`/api/car?id=${id}`)
+    const response = await axios.delete(`/api/cart?id=${id}`)
     const data = response.data
     if (!data || !data.success){
         throw new Error("Something went wrong on Cart Car Delete!")

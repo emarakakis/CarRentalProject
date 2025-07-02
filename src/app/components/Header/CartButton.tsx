@@ -6,19 +6,19 @@ import { Button, Typography } from '@mui/material'
 import { cartButton } from './theme'
 import { useState } from 'react';
 import { CartType } from '../Cart/types';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
-import CartDisplay from './CartDisplay';
+import { useQuery } from '@tanstack/react-query';
 import { fetchCart } from '../scripts/serverFunctions';
+import { Dispatch, SetStateAction } from 'react';
 
 
 
-export default function CartButton(){
+export default function CartButton({setShow}:
+    {setShow: Dispatch<SetStateAction<boolean>>}){
     
     const {data} = useQuery<CartType>({
         queryKey: ['cart'],
         queryFn: fetchCart
     })
-    const [open, setOpen] = useState<boolean>(false)
 
     
 
@@ -33,13 +33,10 @@ export default function CartButton(){
     return (
         <Button
             sx={cartButton}
-            onClick={()=>{setOpen(true)}}>
+            onClick={()=>{setShow(true)}}>
             <ShoppingCartIcon />
             <Typography variant='h2'>{cartNum}</Typography>
-            {open &&
-                <CartDisplay show={open} setShow={setOpen}/>
-            
-            }
+
         </Button>
     )
 }
