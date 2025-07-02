@@ -1,6 +1,5 @@
 "use client"
 import * as React from 'react'
-import { CartContextProvider } from './cart-context'
 import CarList from '../CarItem/CarList'
 import { CarType } from '../CarItem/type'
 import { useState, useEffect } from 'react'
@@ -41,10 +40,10 @@ export default function CartWrapper(){
     }
 
     return(
-        <CartContextProvider>
+        <>
             <Header setSearchParams={setSearchParams}/>
             <CarList cars={cars}/>
             <EditModal/>
-        </CartContextProvider>
+        </>
     )
 }

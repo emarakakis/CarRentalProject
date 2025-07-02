@@ -31,15 +31,16 @@ export default function CarItem({props: car, index}: {props:CarType, index:numbe
 
     const {mutate, isPending, isError, error} = useMutation({
         mutationFn: addToCart,
-        onSuccess: () => {
+        onSuccess: async () => {
             console.log("Item Added")
+            client.invalidateQueries({queryKey: ['cart']})
         }
     })
 
     useEditModal(setOpen, setType, "edit", edit, refetchCar, client)
     
-    function handleAddButton(){
-        mutate({id, quantity: 1})
+    async function handleAddButton(){
+        await mutate({id, quantity: 1})
     }
 
     function handleEditButton(){

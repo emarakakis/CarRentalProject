@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cars = exports.zero_car = void 0;
 exports.zero_car = {
-    id: "", name: '', brand: '', quantity: 0, price: 0
+    id: -100, name: '', brand: '', quantity: 0, price: 0
 };
 exports.cars = [
     { name: 'Civic', brand: 'Honda', quantity: 3, price: 45 },

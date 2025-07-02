@@ -10,12 +10,11 @@ export function GET(request: Request){
 }
 
 export async function PUT(request: Request) {
+  console.log("Mpee")
   try {
     const body = await request.json()
     const { id, quantity } = body
-
-    // Basic validation
-    if (typeof id !== 'string' || id.trim() === '') {
+    if (typeof id !== 'number') {
       return new Response(JSON.stringify({ error: 'Invalid or missing id' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }

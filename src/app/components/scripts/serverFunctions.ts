@@ -17,7 +17,7 @@ export async function fetchCars(){
 }
 
 export async function fetchCart(){
-    const response = await axios.get<{id: string, quantity: number}[]>('/api/cart')
+    const response = await axios.get<{id: number, quantity: number}[]>('/api/cart')
     if (!Array.isArray(response.data)){
         throw new Error("RIP Cart :(")
     }

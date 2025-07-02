@@ -14,7 +14,7 @@ export const carTable = sqliteTable('cars', {
 
 
 export const cartTable = sqliteTable('cart', {
-    id : text("id").primaryKey(),
+    id : integer("id").primaryKey(),
     quantity : integer("quantity")
 })
 
@@ -26,7 +26,7 @@ export function initializeDB() {
         DROP TABLE IF EXISTS cars;
 
         CREATE TABLE cart (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             quantity INTEGER
         );
 

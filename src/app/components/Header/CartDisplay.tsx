@@ -40,6 +40,7 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
 
 
     const carInformation = findCarInformation(cars, cart)
+    const cartPrice = findCartPrice(carInformation, cars)
 
     return (
         <Drawer anchor="right" open={show} onClose={handleClose}>
@@ -51,6 +52,7 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
                             <ListItemText>{car.brand} {car.name} of Quantity: {car.quantity}</ListItemText>
                         </ListItem>)
                 })}
+                <Typography variant='h1'>Cart Price: {cartPrice}</Typography>
                 <Button sx={{color:"black"}}>Buy</Button>
                 <Button sx={{color:"black"}}onClick={handleClose}>Exit</Button>
                 {/* Price: {cart.price} */}
@@ -59,7 +61,7 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
     )
 }
 
-function findCarInformation(cars:CarType[], cartItems:{id: string, quantity: number}[]): (CarType & {quantity:number})[] {
+function findCarInformation(cars:CarType[], cartItems:{id: number, quantity: number}[]): (CarType & {quantity:number})[] {
   return cartItems
     .map(item => {
       const car = cars.find(car => car.id === item.id)
@@ -70,5 +72,18 @@ function findCarInformation(cars:CarType[], cartItems:{id: string, quantity: num
       return {...car, quantity: item.quantity}
     })
     .filter(Boolean) as (CarType & {quantity:number})[]
+}
+
+function findCartPrice(cartItems:CartType, cars:CarType[]){
+    let price = 0
+    cartItems.map((item) => {
+        const carInfo = cars.find(car => car.id === item.id)
+        if (!carInfo){
+            throw new Error("F u typescript")
+        }
+        price += item.quantity * carInfo?.price
+    })
+
+    return price
 }
 
