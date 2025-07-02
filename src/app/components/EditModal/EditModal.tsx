@@ -1,72 +1,77 @@
 import * as React from 'react'
 import { useEffect } from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import {Dialog, DialogTitle, DialogActions, Button, DialogContent, DialogContentText, TextField} from '@mui/material'
 import { CarType } from '../CarItem/type'
-import { EditModalType } from './types'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import TextField from '@mui/material/TextField'
 import { useForm } from 'react-hook-form'
 import { zero_car } from '../Cars/cars'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useContext } from 'react'
+import { EditModalContext } from './editModal-context'
+import { updateCar, addCar } from '../scripts/serverFunctions'
 
-export default function EditModal({props, setCars} : {
-    props:EditModalType,
-    setCars:React.Dispatch<React.SetStateAction<CarType[]>>
-}){
-    const {open, setOpen, car, type} = props
-    const {id, name, brand, quantity, price: carPrice} = {...car}
+export default function EditModal(){
+
+    const {open, setOpen, type} = useContext(EditModalContext)
+    const {mutate: mutateUpdate} = useMutation({
+        mutationFn: updateCar,
+        onSuccess: () => {
+            console.log("Car Updated!")
+        }
+    })
+
+    const {mutate: mutateAdd} = useMutation({
+        mutationFn: addCar,
+        onSuccess: () => {
+            console.log("Car Added!")
+        }
+    })
+
+    const queryClient = useQueryClient()
+    let car = queryClient.getQueryData<CarType>(['selected-car'])
+    if (typeof car !== "object" || !car){
+        car = zero_car
+    }
+    
+
+    // const {id, name, brand, quantity, price: carPrice} = {...car}
     const {register, handleSubmit, reset} = useForm<CarType>({
         defaultValues:car
     })
 
-    // Επειδή δεν έχουμε κάποιο state, τα defaultValues από τα TextField
-    // υπολογίζεται μόνο μια φορά. Για αυτό χρειαζόμαστε με κάποιον τρόπο
-    // ανανεώσεις. Αυτό επειδή κάναμε το useContext στο από πάνω level.
     useEffect(() => {
-      if (type === "add"){
-        reset(zero_car)
-      } else {
-        reset(car)
-      }
-    }, [car, reset, type])
+        if (type === "add"){
+            reset(zero_car)
+        } else {
+            
+            reset(car)
+        }
+        
+    }, [open, car, reset, type])
 
     const handleClose = () => {
         setOpen(false)
     }
 
     const onSubmit = (data: CarType) => {
-        setCars((prevCars:CarType[]) => {
-            const newCars = [...prevCars]
-            let carIndex = newCars.findIndex(c => c.id === data.id)
-            if (carIndex === -1){
-                newCars.push(data)
-            }
-            else{
-                newCars[carIndex] = data
-            }
-            
-            //Apo Chat auto
-            //newCars.map(c=>c.id === data.id : data ? c)
-            
-            return newCars
-        })
+        if (type === "add"){
+            mutateAdd(data)
+        } else {
+            mutateUpdate(data)
+        }
         reset(zero_car)
         setOpen(false)
     }
 
     return (
         <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Car</DialogTitle>
+        <DialogTitle>{type === "add" ? "Add" : "Edit"} Car</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
             <DialogContent>
                 <DialogContentText>Edit the current values and then save.</DialogContentText>
-                <TextField defaultValue={brand} {...register("brand")} fullWidth />
-                <TextField defaultValue={name} {...register("name")} fullWidth />
-                <TextField defaultValue={quantity} {...register("quantity")} fullWidth />
-                <TextField defaultValue={carPrice} {...register("price")} fullWidth />
+                <TextField {...register("brand")} fullWidth />
+                <TextField {...register("name")} fullWidth />
+                <TextField {...register("quantity")} fullWidth />
+                <TextField {...register("price")} fullWidth />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>

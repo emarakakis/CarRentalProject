@@ -1,5 +1,5 @@
 export type CarType = {
-  id: string
+  id: number
   name: string
   brand: string
   quantity: number

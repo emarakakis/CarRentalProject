@@ -1,42 +1,59 @@
-import { cartTable, db } from "../../../../db"
+import { NextResponse } from "next/server"
+import { cartTable,carTable,  db } from "../../../../db"
 import { sql, eq } from "drizzle-orm"
 
-export async function PUT(request: Request) {
-  try {
-    const body = await request.json()
-    const { id, quantity } = body
+export async function GET(request: Request){
+  const url = new URL(request.url)
+  const params = url.searchParams
+  const id = params.get('id')
 
-    // Basic validation
-    if (typeof id !== 'string' || id.trim() === '') {
-      return new Response(JSON.stringify({ error: 'Invalid or missing id' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      })
-    }
-    if (typeof quantity !== 'number' || quantity < 0) {
-      return new Response(JSON.stringify({ error: 'Invalid or missing quantity' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      })
-    }
-
-    const alreadyIn = await db.select().from(cartTable).where(eq(cartTable.id, id)).all()
-    console.log(JSON.stringify(alreadyIn))
-    if (alreadyIn.length > 0) {
-      const what = await db.update(cartTable).set({ quantity : sql`${cartTable.quantity} + 1 `}).where(eq(cartTable.id, id)).run()
-    } else {
-      await db.insert(cartTable).values({ id, quantity }).run()
-    }
-
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  } catch (error) {
-    console.error('Error in PUT /api/cart:', error)
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    })
+  if (!id){
+    throw new Error("Didn't find id in the URL")
   }
+
+  const car = await db.select().from(carTable).where(eq(carTable.id, Number(id)))
+  const firstCar = car[0]
+  console.log(firstCar)
+  return NextResponse.json({
+    car: firstCar,
+    success:true
+  })
+}
+
+export async function PUT(request: Request){
+    const car = await request.json();
+
+    if (!car || typeof car !== "object") {
+      throw new Error("Invalid body");
+    }
+
+
+
+    console.log(`This is the body id ${car.id}`)
+    const { id, name, brand, price, quantity} = car
+    console.log(id, name, brand, price, quantity)
+    try{
+      const result = await db
+      .update(carTable)
+      .set({id, name, brand, price, quantity})
+      .where(eq(carTable.id, id))
+    } catch (error) {
+      console.log("Something went wrong when Updating the Car!")
+      throw error
+    }
+    
+    return NextResponse.json({
+      success: true,
+      message: "Added Car Successully"})
+
+}
+
+export async function POST(request: Request){
+    const car = await request.json()
+    car.id = null
+    await db.insert(carTable).values(car)
+
+    return NextResponse.json({success: true})
+    
+
 }

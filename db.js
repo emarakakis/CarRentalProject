@@ -5,12 +5,13 @@ import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core'
 const sqliteDB = new Database('./mydb.sqlite')
 
 export const carTable = sqliteTable('cars', {
-    id: text('id').primaryKey(),
+    id: integer('id').primaryKey({ autoincrement: true }),
     name: text('name'),
     brand: text('brand'),
     quantity: integer('quantity'),
     price: integer('price')
 })
+
 
 export const cartTable = sqliteTable('cart', {
     id : text("id").primaryKey(),
@@ -30,7 +31,7 @@ export function initializeDB() {
         );
 
         CREATE TABLE cars (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             brand TEXT,
             quantity INTEGER,

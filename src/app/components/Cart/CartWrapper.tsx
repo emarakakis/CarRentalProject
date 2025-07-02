@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchCarList, fetchCars } from '../scripts/serverFunctions'
 import { Box } from '@mui/material'
 import { useQueryClient } from '@tanstack/react-query'
+import EditModal from '../EditModal/EditModal'
 
 export default function CartWrapper(){
     const [searchParams, setSearchParams] = useState<SearchParamType>({query:""})
@@ -22,8 +23,6 @@ export default function CartWrapper(){
     useEffect(()=>{
         queryClient.invalidateQueries({queryKey:['cars', 'query']})
     },[searchParams.query])
-
-    console.log(searchParams.query)
 
     const query  = searchParams.query
     let carList: CarType[] = []
@@ -45,8 +44,7 @@ export default function CartWrapper(){
         <CartContextProvider>
             <Header setSearchParams={setSearchParams}/>
             <CarList cars={cars}/>
-            {/* {<EditModal props={{open, setOpen, car, type}} setCars={setCars}/>} */}
+            <EditModal/>
         </CartContextProvider>
     )
-
 }
