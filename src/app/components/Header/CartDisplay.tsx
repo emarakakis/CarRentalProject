@@ -2,9 +2,10 @@ import * as React from 'react'
 
 import {Box, Drawer, Typography, Button, ListItem, ListItemText} from '@mui/material'
 import { CarType } from '../CarItem/type'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { CartType } from '../Cart/types'
-import { fetchCars, fetchCart } from '../scripts/serverFunctions'
+import { deleteCartCar, fetchCars, fetchCart } from '../scripts/serverFunctions'
+import CartItem from './CartItem'
 
 type CartDisplayProps = {
   show: boolean
@@ -21,6 +22,8 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
         queryKey: ['cars'],
         queryFn: fetchCars
     })
+
+    
 
     const handleClose = () => {
         setShow(false)
@@ -48,9 +51,8 @@ export default function CartDisplay({ show, setShow }: CartDisplayProps) {
                 <Typography variant='h1'>Your Cart!</Typography>
                 {carInformation.map((car: CarType & {quantity: number} , i:number) => {
                     return (
-                        <ListItem key = {i}>
-                            <ListItemText>{car.brand} {car.name} of Quantity: {car.quantity}</ListItemText>
-                        </ListItem>)
+                        <CartItem key={i} name={car.name} brand={car.brand} quantity={car.quantity} id={car.id}/>
+                        )
                 })}
                 <Typography variant='h1'>Cart Price: {cartPrice}</Typography>
                 <Button sx={{color:"black"}}>Buy</Button>

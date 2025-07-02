@@ -7,7 +7,7 @@ import { zero_car } from '../Cars/cars'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { EditModalContext } from './editModal-context'
-import { updateCar, addCar } from '../scripts/serverFunctions'
+import { updateCar, addCar, deleteCar } from '../scripts/serverFunctions'
 
 
 export default function EditModal(){
@@ -26,6 +26,17 @@ export default function EditModal(){
         onSuccess: () => {
             console.log("Car Added!")
             queryClient.invalidateQueries({queryKey: ['cars']})
+        }
+    })
+
+    const {mutate: mutateDelete} = useMutation({
+        mutationFn: deleteCar,
+        onSuccess: () => {
+            console.log("Successfully Deleted Car!")
+            queryClient.invalidateQueries({ queryKey: ['cars'] })
+            queryClient.invalidateQueries({ queryKey: ['cart'] })
+            setOpen(false)
+            reset(zero_car)
         }
     })
 
@@ -78,8 +89,9 @@ export default function EditModal(){
                 <TextField {...register("price")} fullWidth />
             </DialogContent>
             <DialogActions>
+                {type === "edit" && <Button sx = {{color:'red'}}onClick={()=> mutateDelete(car.id)}>Delete</Button>}
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">{type === "add" ? "Add Car" : "Save Changes"}</Button>
+                <Button type="submit" sx={{color:'green'}}>{type === "add" ? "Add Car" : "Save Changes"}</Button>
             </DialogActions>
         </form>
         </Dialog>

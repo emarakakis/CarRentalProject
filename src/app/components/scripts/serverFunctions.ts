@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { CarType } from '../CarItem/type'
-import { CartType } from '../Cart/types'
+
 export async function fetchCarList(query: string){
     const response = await axios.get<CarType[]>('/api/carList')
     if (!Array.isArray(response.data))
@@ -23,7 +23,6 @@ export async function fetchCart(){
     }
     return response.data
 }
-
 
 export async function addToCart(car: {id: number, quantity: number}){
     const response = await axios.put("/api/cart", {...car})
@@ -58,5 +57,22 @@ export async function addCar(car: CarType){
 
     if (!data || !data.success){
         throw new Error("Something went wrong on Car Add!")
+    }
+}
+
+export async function deleteCar(id: number){
+    const response = await axios.delete(`/api/car?id=${id}`)
+    const data = response.data
+
+    if (!data || !data.success){
+        throw new Error("Something went wrong on Cart Car Delete!")
+    }
+}
+
+export async function deleteCartCar(id: number){
+    const response = await axios.delete(`/api/car?id=${id}`)
+    const data = response.data
+    if (!data || !data.success){
+        throw new Error("Something went wrong on Cart Car Delete!")
     }
 }

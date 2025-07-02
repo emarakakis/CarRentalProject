@@ -47,3 +47,17 @@ export async function PUT(request: Request) {
     })
   }
 }
+
+export async function DELETE(request: Request){
+  const url = new URL(request.url)
+  const query = url.searchParams
+  const id = query.get('id')
+
+  try{
+    const response = await db.delete(cartTable).where(eq(cartTable.id, Number(id))).run()
+    return NextResponse.json({success: true, status: 200})
+  } catch(error) {
+    console.log("Error while deleting Cart Item")
+    throw error
+  }
+}

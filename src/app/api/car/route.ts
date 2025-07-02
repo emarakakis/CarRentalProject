@@ -54,6 +54,18 @@ export async function POST(request: Request){
     await db.insert(carTable).values(car)
 
     return NextResponse.json({success: true})
-    
+}
 
+export async function DELETE(request: Request){
+    const url = new URL(request.url)
+    const query = url.searchParams
+    const id = query.get('id')
+    try{
+      const response = await db.delete(carTable).where(eq(carTable.id, Number(id)))
+      return NextResponse.json({success: true, status: 200})
+    } catch(error) {
+      console.log("Error when Deleting Car from DB!")
+      throw error
+    }
+    
 }
