@@ -10,7 +10,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { addToCart, getCarById } from '../scripts/serverFunctions'
 import { useContext, useState } from 'react'
 import { EditModalContext } from '../EditModal/editModal-context'
-import EditModal from '../EditModal/EditModal'
+import { useQueryClient } from '@tanstack/react-query'
 import { useEditModal } from '../hooks/edit-modal-hook'
 
 export default function CarItem({props: car, index}: {props:CarType, index:number}){
@@ -27,6 +27,7 @@ export default function CarItem({props: car, index}: {props:CarType, index:numbe
 
     const {setType, setOpen} = useContext(EditModalContext)
     const [edit, setEdit] = useState<boolean>(false)
+    const client = useQueryClient()
 
     const {mutate, isPending, isError, error} = useMutation({
         mutationFn: addToCart,
@@ -35,16 +36,14 @@ export default function CarItem({props: car, index}: {props:CarType, index:numbe
         }
     })
 
-    useEditModal(setOpen, setType, "edit", edit, refetchCar)
+    useEditModal(setOpen, setType, "edit", edit, refetchCar, client)
     
     function handleAddButton(){
         mutate({id, quantity: 1})
     }
 
     function handleEditButton(){
-        if (selectedCar?.id !== id){
-            setEdit(val => !val)
-        }
+        setEdit(val => !val)
     }
 
     return <Box sx={carStyle(color)}>

@@ -9,13 +9,15 @@ import { useContext } from 'react'
 import { EditModalContext } from './editModal-context'
 import { updateCar, addCar } from '../scripts/serverFunctions'
 
-export default function EditModal(){
 
-    const {open, setOpen, type} = useContext(EditModalContext)
+export default function EditModal(){
+    const queryClient = useQueryClient()
+    const {open, setOpen, type, setType} = useContext(EditModalContext)
     const {mutate: mutateUpdate} = useMutation({
         mutationFn: updateCar,
         onSuccess: () => {
             console.log("Car Updated!")
+            queryClient.invalidateQueries({queryKey: ['cars']})
         }
     })
 
@@ -23,32 +25,34 @@ export default function EditModal(){
         mutationFn: addCar,
         onSuccess: () => {
             console.log("Car Added!")
+            queryClient.invalidateQueries({queryKey: ['cars']})
         }
     })
 
-    const queryClient = useQueryClient()
+    
     let car = queryClient.getQueryData<CarType>(['selected-car'])
     if (typeof car !== "object" || !car){
         car = zero_car
     }
     
-
-    // const {id, name, brand, quantity, price: carPrice} = {...car}
     const {register, handleSubmit, reset} = useForm<CarType>({
         defaultValues:car
     })
 
+    console.log(type)
+
     useEffect(() => {
-        if (type === "add"){
+        if (type === "pad"){}
+        else if (type === "add"){
             reset(zero_car)
         } else {
-            
             reset(car)
         }
         
     }, [open, car, reset, type])
 
     const handleClose = () => {
+        setType("pad")
         setOpen(false)
     }
 
